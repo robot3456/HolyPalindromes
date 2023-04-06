@@ -4,7 +4,7 @@ import os
 #INPUT_FILE = "resources/quran-simple-clean.txt"
 INPUT_FILE = "resources/quran-simple-clean-no-bismillah.txt"
 #INPUT_FILE = "resources/extract.txt"
-#INPUT_FILE = "resources/output.txt"
+OUTPUT_FILE = "resources/output.txt"
 
 class QuranStats():
     
@@ -83,11 +83,11 @@ def main():
     #print(nqsSingleLine)
 
     try:
-        os.remove(INPUT_FILE)
+        os.remove(OUTPUT_FILE)
     except OSError:
-        print(f"The file {INPUT_FILE} doesn't exists ! Cannot delete it !")
+        print(f"The file {OUTPUT_FILE} doesn't exists ! Cannot delete it !")
 
-    f = open("resources/output.txt", "a")
+    f = open(OUTPUT_FILE, "a")
     f.write(nqsSingleLine)
     f.close()
 
