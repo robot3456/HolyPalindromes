@@ -60,13 +60,18 @@ class QuranStats():
 
         return self.singleLineQuran
 
+    def findPalindromes(self, inputFile, starting_length=1, ignore_spaces=True):
+        with open(inputFile) as oneLineQuran:
+            for line in oneLineQuran : 
+                for characters in line : 
+                    print(characters)
+
 
 
 
 
 
 def main():
-    print("Je suis dans le main")
     
     newQuranStats = QuranStats()
     nqsSourates = newQuranStats.countSourates(INPUT_FILE)
@@ -91,7 +96,11 @@ def main():
     f.write(nqsSingleLine)
     f.close()
 
-
+    print("######### FINDING PALINDROMES #########")
+    f = open(OUTPUT_FILE, "a")
+    abc = QuranStats()
+    abc.findPalindromes(OUTPUT_FILE)
+    f.close()
 """
     with open("resources/extract.txt", "r") as op: 
     for i in op :
