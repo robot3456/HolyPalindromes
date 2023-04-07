@@ -68,11 +68,83 @@ class QuranStats():
 
 
 
+class QuranFormatting():
+    def __init__(self):
+        self.loadTextInMemory(INPUT_FILE)
+
+    def loadTextInMemory(self, inputFile):
+        with open(inputFile) as quran : 
+            self.quranTxt = quran.readlines()
+            #print(self.quranTxt)
+            #print(type(self.quranTxt))
+
+    def printQuranTxt(self):
+        for i in range(len(self.quranTxt)):
+            print(self.quranTxt[i], end='')
+
+    # Not OP
+    def readOneLine(self, inputFile):
+        with open(INPUT_FILE) as quran:
+            print("oneline")
+
+    def deleteSpacesAndEOLInString(self, oString):
+        oString = oString.replace(" ", "")
+        oString = oString.replace("\n", "")
+        return oString
+
+    def writeToTxt(self, foundPalindrome, outputFile):
+        try:
+            os.remove(outputFile)
+        except OSError:
+            print(f"The file {OUTPUT_FILE} doesn't exists ! Cannot delete it !")
+
+        f = open(outputFile, "a")
+        f.write(foundPalindrome)
+        f.close()
+
+
+
+
+
+
+class QuranPalindromes(QuranFormatting):
+    def __init__(self):
+        QuranFormatting.__init__(self)
+
+    def extractNLetters(self, N, offset=0):
+        """
+        Used to extract any string of N letters in the text
+        N : String size
+        offset : to move across the text
+        """    
+        pass
+        
+    def isPalindrome(self, palindromeCandidate):
+        if palindromeCandidate == palindromeCandidate[::-1]:
+            return True
+        return False
+
+
 
 
 
 def main():
+
+    quran = QuranPalindromes()
+    quran.printQuranTxt()
+    print(quran.isPalindrome(""))
+
+    myString = "Bonjoour azeori  pazo\n ier poe\n a poiaez pzae"
+    #print(myString)
+    quran.deleteSpacesAndEOLInString(myString)
+
+    #print("After function : ")
+
+
+    #print(myString)
     
+
+    """
     newQuranStats = QuranStats()
     nqsSourates = newQuranStats.countSourates(INPUT_FILE)
     nqsVerses = newQuranStats.countVerses(INPUT_FILE)
@@ -101,6 +173,9 @@ def main():
     abc = QuranStats()
     abc.findPalindromes(OUTPUT_FILE)
     f.close()
+
+"""
+
 """
     with open("resources/extract.txt", "r") as op: 
     for i in op :
@@ -109,10 +184,7 @@ def main():
             if (j == "\n"):
                 print("retour chariot")
             print(i)
-
 """
-
-
 
 
 
