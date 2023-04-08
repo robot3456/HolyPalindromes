@@ -134,7 +134,7 @@ class QuranPalindromes(QuranStats, QuranFormatting):
         with open(INPUT_FILE) as quran: 
             for absoluteAyahNumber,ayah in enumerate(quran):
                 for letter in ayah:
-                    print
+                    
 
                     if offset_count==offset:
                         if ignoreSpaces==True:
@@ -154,7 +154,8 @@ class QuranPalindromes(QuranStats, QuranFormatting):
 
                     else: 
                         #print("je suis dans le else")
-                        offset_count+=1
+                        if (letter!=" ") and (letter!="\n"):
+                            offset_count+=1
 
                     #print(f"{absoluteAyahNumber+1} -> {verse}")
 
@@ -165,10 +166,23 @@ class QuranPalindromes(QuranStats, QuranFormatting):
         self.countLetters(INPUT_FILE)
 
         with open(INPUT_FILE) as quran:
-            for letterNumber in range(0,self.letters-(N)):
-                abc = self.extractNLetters(N, letterNumber, ignoreSpaces)
-                print(f"scan ---> {abc}")
 
+            # self.letter size is incorrect : we should substract the number of total spaces contained in the text
+            for letterNumber in range(0,self.letters-(N)):
+
+                try:
+                    absAyatNum, strToAnalyze = self.extractNLetters(N, letterNumber, ignoreSpaces)
+
+                    #print(f"Palindrome found (TRUE) !  : ")
+                    #print(f"scan ---> {absAyatNum} : {strToAnalyze}")
+
+                    if QuranPalindromes().isPalindrome(strToAnalyze):
+                        
+                        print(f"Palindrome found (TRUE) !  : ")
+                        print(f"scan ---> {absAyatNum} : {strToAnalyze}")
+                
+                except TypeError:
+                    break
 
     def isPalindrome(self, palindromeCandidate):
         if palindromeCandidate == palindromeCandidate[::-1]:
@@ -187,21 +201,30 @@ def main():
     myString = "Bonjoour azeori  pazo\n ier poe\n a poiaez pzae"
     quran.deleteSpacesAndEOLInString(myString)
     #print(myString)
-    
+
+
+
+    """
     # Surah Ya-Sin :  c.300367 / v.3744 / s.36
-    num,buf = quran.extractNLetters(7, 300367)
+    num,buf = quran.extractNLetters(1, 3)
     print(f"buf is ---> {buf}")
     print(f"Is this a palindrome ? ---> ANSWER: {quran.isPalindrome(buf)}")
 
-
+    """
     print(" #------------------- MAIN --------------------# ")
 
 
     x = quran.countLetters(INPUT_FILE)
+    """
     print(f"x is {x}")
-
-    numa, bufa = quran.extractNLetters(1,4)
-    print(numa , bufa)
+    for i in range(0,10):
+        numa, bufa = quran.extractNLetters(1,i)
+        print(numa , bufa)
+    """
+    
+    y = quran.scanAllQuran(3)
+    
+    
     """
     pal = quran.isPalindrome(buf)
     print(pal)
