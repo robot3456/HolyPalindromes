@@ -105,20 +105,71 @@ class QuranFormatting():
 
 
 
+class QuranPalindromes(QuranStats, QuranFormatting):
 
-
-class QuranPalindromes(QuranFormatting):
     def __init__(self):
-        super().__init__()
+        QuranStats().__init__()
+        QuranFormatting().__init__()
+        self.letters = 0
+        #super().__init__()
 
-    def extractNLetters(self, N, offset=0):
+    def countLetters(self, inputFile):
+        with open(inputFile) as quran: 
+            for verse in quran : 
+                for letter in verse :
+                    if(letter != " ") and (letter != "\n"):
+                        self.letters += 1
+        return self.letters
+
+    def extractNLetters(self, N=1, offset=0, ignoreSpaces=True):
         """
         Used to extract any string of N letters in the text
         N : String size
         offset : to move across the text
         """    
-        pass
         
+        offset_count = 0
+        buffer=""
+
+        with open(INPUT_FILE) as quran: 
+            for absoluteAyahNumber,ayah in enumerate(quran):
+                for letter in ayah:
+                    print
+
+                    if offset_count==offset:
+                        if ignoreSpaces==True:
+                            # not ok because restarts from beginning of the line
+                            if (letter!=" ") and (letter!="\n"):
+                                #print(absoluteAyahNumber+1)
+                                buffer = "".join((buffer, letter))
+                                #print(f"buffer is {buffer}")
+                        else:
+                            print(absoluteAyahNumber+1)
+                            buffer = "".join((buffer, letter))
+                            #print(f"buffer is {buffer}")
+                            buffer = buffer.replace("\n", " ")
+
+                        if len(buffer) == N:
+                            return (absoluteAyahNumber+1, buffer)
+
+                    else: 
+                        #print("je suis dans le else")
+                        offset_count+=1
+
+                    #print(f"{absoluteAyahNumber+1} -> {verse}")
+
+
+    def scanAllQuran(self, N=1, ignoreSpaces=True):
+
+        #print(self.letters)
+        self.countLetters(INPUT_FILE)
+
+        with open(INPUT_FILE) as quran:
+            for letterNumber in range(0,self.letters-(N)):
+                abc = self.extractNLetters(N, letterNumber, ignoreSpaces)
+                print(f"scan ---> {abc}")
+
+
     def isPalindrome(self, palindromeCandidate):
         if palindromeCandidate == palindromeCandidate[::-1]:
             return True
@@ -127,66 +178,42 @@ class QuranPalindromes(QuranFormatting):
 
 
 
-
 def main():
 
     quran = QuranPalindromes()
-    quran.printQuranTxt()
-    print(quran.isPalindrome(""))
+    #quran.printQuranTxt()
+    print(f"checking palindrome ---> { quran.isPalindrome('dadad') }")
 
     myString = "Bonjoour azeori  pazo\n ier poe\n a poiaez pzae"
-    #print(myString)
     quran.deleteSpacesAndEOLInString(myString)
-
-    #print("After function : ")
-
-
     #print(myString)
     
+    # Surah Ya-Sin :  c.300367 / v.3744 / s.36
+    num,buf = quran.extractNLetters(7, 300367)
+    print(f"buf is ---> {buf}")
+    print(f"Is this a palindrome ? ---> ANSWER: {quran.isPalindrome(buf)}")
 
+
+    print(" #------------------- MAIN --------------------# ")
+
+
+    x = quran.countLetters(INPUT_FILE)
+    print(f"x is {x}")
+
+    numa, bufa = quran.extractNLetters(1,4)
+    print(numa , bufa)
     """
-    newQuranStats = QuranStats()
-    nqsSourates = newQuranStats.countSourates(INPUT_FILE)
-    nqsVerses = newQuranStats.countVerses(INPUT_FILE)
-    nqsWords = newQuranStats.countWords(INPUT_FILE)
-    nqsLetters = newQuranStats.countLetters(INPUT_FILE)
-    nqsSingleLine = newQuranStats.createOneLineQuran(INPUT_FILE)
-    nqsSingleLine = nqsSingleLine.replace("\n", " ")
+    pal = quran.isPalindrome(buf)
+    print(pal)
 
-    print("Sourates : " , nqsSourates)
-    print("Verses : " , nqsVerses)
-    print("Words : " , nqsWords)
-    print("Letters : " , nqsLetters)
-    #print(nqsSingleLine)
+    print(" #------------------- MAIN --------------------# ")
 
-    try:
-        os.remove(OUTPUT_FILE)
-    except OSError:
-        print(f"The file {OUTPUT_FILE} doesn't exists ! Cannot delete it !")
+    x = quran.countLetters(INPUT_FILE)
+    #print(x)
+    quran.scanAllQuran(x)
 
-    f = open(OUTPUT_FILE, "a")
-    f.write(nqsSingleLine)
-    f.close()
-
-    print("######### FINDING PALINDROMES #########")
-    f = open(OUTPUT_FILE, "a")
-    abc = QuranStats()
-    abc.findPalindromes(OUTPUT_FILE)
-    f.close()
-
-"""
-
-"""
-    with open("resources/extract.txt", "r") as op: 
-    for i in op :
-        for j in i :
-            
-            if (j == "\n"):
-                print("retour chariot")
-            print(i)
-"""
-
-
+    print(" #------------------- END --------------------# ")
+    """
 
 if __name__=="__main__":
     main()

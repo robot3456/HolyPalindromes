@@ -47,7 +47,6 @@ class QuranXML(ET.ElementTree):
 
                     #print(f"oBuffer = {buffer} ")
                     #print(f"oOffsetCount = {offset_count}")
-
                     #print(relativeAyahNumber)
 
                     if offset_count==offset:
@@ -75,9 +74,7 @@ class QuranXML(ET.ElementTree):
 
         # print("bonjour")
 
-
-
-    def analyzeAllQuran(self):
+    def analyzeAllQuran(self, igoreSpaces=True):
         pass
 
     def isPalindrome(self, palindromeCandidate):
@@ -87,8 +84,6 @@ class QuranXML(ET.ElementTree):
 
                 
 #print(ET.tostring(root))
-
-
 
 
 
