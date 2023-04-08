@@ -1,10 +1,10 @@
 import os 
 
 
-#INPUT_FILE = "resources/quran-simple-clean.txt"
-INPUT_FILE = "resources/quran-simple-clean-no-bismillah.txt"
-#INPUT_FILE = "resources/extract.txt"
-OUTPUT_FILE = "resources/output.txt"
+#INPUT_FILE = "resources/text/quran-simple-clean.txt"
+INPUT_FILE = "resources/text/quran-simple-clean-no-bismillah.txt"
+#INPUT_FILE = "resources/text/extract.txt"
+OUTPUT_FILE = "resources/text/output.txt"
 
 class QuranStats():
     
@@ -109,7 +109,7 @@ class QuranFormatting():
 
 class QuranPalindromes(QuranFormatting):
     def __init__(self):
-        QuranFormatting.__init__(self)
+        super().__init__()
 
     def extractNLetters(self, N, offset=0):
         """
