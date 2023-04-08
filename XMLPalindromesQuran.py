@@ -5,6 +5,7 @@ import xml
 #INPUT_FILE = "resources/text/quran-simple-clean-no-bismillah.txt"
 #INPUT_FILE = "resources/text/extract.txt"
 #OUTPUT_FILE = "resources/text/output.txt"
+#XML_FILE = "resources/xml/quran-simple-clean.xml"
 XML_FILE = "resources/xml/quran-simple-clean.xml"
 
 class QuranXML(ET.ElementTree):
@@ -30,7 +31,7 @@ class QuranXML(ET.ElementTree):
                 for letter in ayah.get('text'):
                     print(letter)
 
-    def extractNLetters(self, N=1, offset=0):
+    def extractNLetters(self, N=1, offset=0, ignoreSpaces=True):
         """
         Used to extract any string of N letters in the text
         N : String size
@@ -41,16 +42,41 @@ class QuranXML(ET.ElementTree):
         buffer=""
 
         for surah in self.root:
-            for ayah in surah:
+            for relativeAyahNumber,ayah in enumerate(surah):                
                 for letter in ayah.get('text'):
 
-                    if offset_count==offset:
-                        buffer += letter
+                    #print(f"oBuffer = {buffer} ")
+                    #print(f"oOffsetCount = {offset_count}")
 
-                    offset_count += 1
-                    print(buffer)
-                    #print(letter)
-        
+                    #print(relativeAyahNumber)
+
+                    if offset_count==offset:
+
+                        if ignoreSpaces==True:
+                            #print(f"letter is {letter}")
+                            #print("lkjhlk")
+                            if letter!=" ":
+                                print(relativeAyahNumber+1)
+                                buffer = "".join((buffer, letter))
+                                print(f"buffer is {buffer}")
+                        else:
+                            print(relativeAyahNumber+1)
+                            buffer = "".join((buffer, letter))
+                            print(f"buffer is {buffer}")
+
+
+                        #print(f"buffer is : {buffer}")
+                        if len(buffer) == N:
+                            return buffer
+                            
+                    else: 
+                        print("je suis dans le else")
+                        offset_count+=1
+
+        # print("bonjour")
+
+
+
     def analyzeAllQuran(self):
         pass
 
@@ -69,11 +95,12 @@ class QuranXML(ET.ElementTree):
 def main():
 
     xmlq = QuranXML()
-    xmlq.printSurahNames()
-    xmlq.printAllAyahs()
+    #xmlq.printSurahNames()
+    #xmlq.printAllAyahs()
     #xmlq.printAllLetters()
-    xmlq.extractNLetters(3,0)
+    buf = xmlq.extractNLetters(3,2)
 
+    print(f"final buf -------> {buf}")
 
 """
     tree = ET.parse(XML_FILE)
