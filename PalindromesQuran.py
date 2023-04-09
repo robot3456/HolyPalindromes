@@ -186,9 +186,14 @@ class QuranPalindromes(QuranStats, QuranFormatting):
                 except TypeError:
                     break
 
-    def scanAllQuranForAllN(self):
+    def scanAllQuranForAllN(self, startLen):
+        try:
+            os.remove(RESULT_FILE)
+        except OSError:
+            print(f"The file {RESULT_FILE} doesn't exists ! Cannot delete it !")
+
         with open(RESULT_FILE, 'a') as rf:
-            for i in range(self.letters, 5, -1):
+            for i in range(startLen, self.letters):
                 rf.write(f"------- For palindrome length = {i} -------\n")
                 print(f"------- For palindrome length = {i} -------")
                 self.scanAllQuranForConstantN(i)
@@ -232,7 +237,7 @@ def main():
     """
     
     #y = quran.scanAllQuranForConstantN(3)
-    quran.scanAllQuranForAllN()
+    quran.scanAllQuranForAllN(9)
     
     """
     pal = quran.isPalindrome(buf)
