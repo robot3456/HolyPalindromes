@@ -188,7 +188,7 @@ class QuranPalindromes(QuranStats, QuranFormatting):
 
     def scanAllQuranForAllN(self):
         with open(RESULT_FILE, 'a') as rf:
-            for i in range(self.letters):
+            for i in range(self.letters, 5, -1):
                 rf.write(f"------- For palindrome length = {i} -------\n")
                 print(f"------- For palindrome length = {i} -------")
                 self.scanAllQuranForConstantN(i)
