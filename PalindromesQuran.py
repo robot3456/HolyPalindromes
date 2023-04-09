@@ -5,6 +5,7 @@ import os
 INPUT_FILE = "resources/text/quran-simple-clean-no-bismillah.txt"
 #INPUT_FILE = "resources/text/extract.txt"
 OUTPUT_FILE = "resources/text/output.txt"
+RESULT_FILE = "resources/text/results.txt"
 
 class QuranStats():
     
@@ -160,12 +161,12 @@ class QuranPalindromes(QuranStats, QuranFormatting):
                     #print(f"{absoluteAyahNumber+1} -> {verse}")
 
 
-    def scanAllQuran(self, N=1, ignoreSpaces=True):
+    def scanAllQuranForConstantN(self, N=1, ignoreSpaces=True):
 
         #print(self.letters)
         self.countLetters(INPUT_FILE)
 
-        with open(INPUT_FILE) as quran:
+        with open(INPUT_FILE) as quran, open(RESULT_FILE, 'a') as rf:
 
             # self.letter size is incorrect : we should substract the number of total spaces contained in the text
             for letterNumber in range(0,self.letters-(N)):
@@ -180,9 +181,17 @@ class QuranPalindromes(QuranStats, QuranFormatting):
                         
                         print(f"Palindrome found (TRUE) !  : ")
                         print(f"scan ---> {absAyatNum} : {strToAnalyze}")
+                        rf.write(f"Absolute Verse : {absAyatNum} --> {strToAnalyze} \n")
                 
                 except TypeError:
                     break
+
+    def scanAllQuranForAllN(self):
+        with open(RESULT_FILE, 'a') as rf:
+            for i in range(self.letters):
+                rf.write(f"------- For palindrome length = {i} -------\n")
+                print(f"------- For palindrome length = {i} -------")
+                self.scanAllQuranForConstantN(i)
 
     def isPalindrome(self, palindromeCandidate):
         if palindromeCandidate == palindromeCandidate[::-1]:
@@ -222,8 +231,8 @@ def main():
         print(numa , bufa)
     """
     
-    y = quran.scanAllQuran(3)
-    
+    #y = quran.scanAllQuranForConstantN(3)
+    quran.scanAllQuranForAllN()
     
     """
     pal = quran.isPalindrome(buf)
